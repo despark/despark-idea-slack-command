@@ -66,9 +66,9 @@
     // Close Connection
     curl_close($ch);
 
-    // Check If We Got The Despark Project Ideas Board lists
+    // Check If We Got The Board's Lists
     if (is_null($trelloLists)) {
-        exit('Couldn\'t find Despark Project Ideas board lists.');
+        exit('Couldn\'t find the board\'s lists.');
     }
 
     $listExists = false;
@@ -107,7 +107,7 @@
 
         // Check If We Made A List
         if (is_null($trelloCreateList)) {
-            exit('Couldn\'t make a list for the Despark Project Ideas board. Please try again.');
+            exit('Couldn\'t make a list on the Trello board. Please try again.');
         }
 
         $trelloListId = $trelloCreateList['id'];
