@@ -3,7 +3,7 @@
 
     // Check If The Post Request Comes From Your Slack Slash Command
     if (! isset($_POST['token']) || $_POST['token'] !== $slackConfirmToken) {
-        exit('This post request isn not sent from Slack');
+        exit('This post request wasn\'t sent from Slack');
     }
 
     $text = $_POST['text'];
