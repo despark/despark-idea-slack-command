@@ -33,7 +33,7 @@
     if ($config['subscribeUser']) {
         try {
             $servername = $config['servername'];
-            $db = config['db'];
+            $db = $config['db'];
             $username = $config['username'];
             $password = $config['password'];
 
@@ -55,8 +55,6 @@
         }
 
         $conn = null;
-    } else {
-        $trelloUserId = '';
     }
 
     $getTrelloListsUrl = 'https://api.trello.com/1/boards/'.$config['trelloBoardId'].'/lists?key='.$config['trelloApiKey'].'&token='.$config['trelloAuthToken'];
@@ -127,11 +125,17 @@
         'name' => $ideaTitle,
         'desc' => $ideaDescription,
         'idList' => $trelloListId,
-        'idLabels' => [$config['trelloLabelId']],
-        'idMembers' => [$trelloUserId],
         'key' => $config['trelloApiKey'],
         'token' => $config['trelloAuthToken'],
     ];
+
+    if (! is_null($config['trelloLabelId'])) {
+        $fields['idLabels'] = $config['trelloLabelId'];
+    }
+
+    if (! $config['subscribeUser'] && isset($trelloUserId)) {
+        $fields['idMembers'] = $trelloUserId;
+    }
 
     // open connection
     $ch = curl_init();
