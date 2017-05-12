@@ -2,7 +2,7 @@
     require_once 'config.php';
 
     // Check If The Post Request Comes From Your Slack Slash Command
-    if (! isset($_POST['token']) || $_POST['token'] !== $slackConfirmToken) {
+    if (! isset($_POST['token']) || $_POST['token'] !== $config['slackConfirmToken']) {
         exit('This post request wasn\'t sent from Slack');
     }
 
@@ -30,27 +30,36 @@
     $slackUserId = $_POST['user_id'];
     $slackChannelName = $_POST['channel_name'];
 
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$db", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT `trello_id` FROM `ids` WHERE `slack_id` = '".$slackUserId."'");
-        $stmt->execute();
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $data = $stmt->fetchAll();
+    if ($config['subscribeUser']) {
+        try {
+            $servername = $config['servername'];
+            $db = config['db'];
+            $username = $config['username'];
+            $password = $config['password'];
 
-        if (empty($data)) {
-            $conn = null;
-            exit('You\'re profile wasn\'t found');
+            $conn = new PDO("mysql:host=$servername;dbname=$db", $username, $password);
+            // set the PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $conn->prepare("SELECT `trello_id` FROM `ids` WHERE `slack_id` = '".$slackUserId."'");
+            $stmt->execute();
+            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $data = $stmt->fetchAll();
+
+            if (empty($data)) {
+                $conn = null;
+                exit('You\'re profile wasn\'t found');
+            }
+            $trelloUserId = $data[0]['trello_id'];
+        } catch (PDOException $e) {
+            exit('Connection failed: '.$e->getMessage());
         }
-        $trelloUserId = $data[0]['trello_id'];
-    } catch (PDOException $e) {
-        exit('Connection failed: '.$e->getMessage());
+
+        $conn = null;
+    } else {
+        $trelloUserId = '';
     }
 
-    $conn = null;
-
-    $getTrelloListsUrl = 'https://api.trello.com/1/boards/'.$trelloBoardId.'/lists?key='.$trelloApiKey.'&token='.$trelloAuthToken;
+    $getTrelloListsUrl = 'https://api.trello.com/1/boards/'.$config['trelloBoardId'].'/lists?key='.$config['trelloApiKey'].'&token='.$config['trelloAuthToken'];
 
     // Open Connection
     $ch = curl_init();
@@ -82,11 +91,11 @@
     }
 
     if (! $listExists) {
-        $trelloCreateListUrl = 'https://trello.com/1/boards/'.$trelloBoardId.'/lists';
+        $trelloCreateListUrl = 'https://trello.com/1/boards/'.$config['trelloBoardId'].'/lists';
         $fields = [
             'name' => $slackChannelName,
-            'key' => $trelloApiKey,
-            'token' => $trelloAuthToken,
+            'key' => $config['trelloApiKey'],
+            'token' => $config['trelloAuthToken'],
         ];
 
         // open connection
@@ -118,10 +127,10 @@
         'name' => $ideaTitle,
         'desc' => $ideaDescription,
         'idList' => $trelloListId,
-        'idLabels' => [$trelloLabelId],
+        'idLabels' => [$config['trelloLabelId']],
         'idMembers' => [$trelloUserId],
-        'key' => $trelloApiKey,
-        'token' => $trelloAuthToken,
+        'key' => $config['trelloApiKey'],
+        'token' => $config['trelloAuthToken'],
     ];
 
     // open connection
