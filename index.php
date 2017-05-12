@@ -1,8 +1,9 @@
 <?php
     require_once 'config.php';
 
-    if ($_POST['token'] !== $slackConfirmToken) {
-        exit('This post request isn not sent from Slack Despark!');
+    // Check If The Post Request Comes From Your Slack Slash Command
+    if (! isset($_POST['token']) || $_POST['token'] !== $slackConfirmToken) {
+        exit('This post request isn not sent from Slack');
     }
 
     $text = $_POST['text'];
