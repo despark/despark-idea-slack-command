@@ -1,6 +1,6 @@
 # Despark's Idea Slack Command
 
-**Despark's Idea Slack Command** is a slash command for <a href="https://slack.com/" targer="_blank">Slack</a>, with which you can easily add your thoughts to your <a href="https://trello.com/" target="_blank">Trello</a> Organization Board.
+**Despark's Idea Slack Command** is a slash command for <a href="https://slack.com/" target="_blank">Slack</a>, with which you can easily add your thoughts to your <a href="https://trello.com/" target="_blank">Trello</a> Organization Board.
 
 ## Usage
 ```
