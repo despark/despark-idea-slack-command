@@ -7,7 +7,7 @@
     /commandName [Title][Description(Leave empty if you don't want any)]
     
 ```
-The idea will be automatically added at your provided Trello Board and will be under a list, with the name of the Slack channel, from where you created it.
+The idea will be automatically added to the Trello board you provided in the config.php, under a list with the name of the Slack channel, in which you initiated the command.
 
 ## Requirements
 
@@ -24,7 +24,32 @@ The idea will be automatically added at your provided Trello Board and will be u
     
   ```
 
-2. Create a config.php file with the data from config_example.php
+2. Create a config.php file with the data from config_example.php and update appropriately to match your setup.
+
+```php
+   <?php
+    $config = [
+        // Set True If You Want To Subscribe The User To The Created Idea
+        'subscribeUser' => false,
+        // Database
+        'servername' => '127.0.0.1',
+        'username' => 'username',
+        'password' => 'password',
+        'db' => 'database',
+        // Trello
+        // Admin Auth Token For Using The API
+        'trelloAuthToken' => 'trelloAuthToken',
+        // Admin API Key For Using The API
+        'trelloApiKey' => 'trelloApiKey',
+        // Trello Board ID Where The Ideas Will Be Created
+        'trelloBoardId' => 'trelloBoardId',
+        // ID Of The Label That Should Be Applied On The Idea. Set NULL If You Don't Want To Apply Any
+        'trelloLabelId' => null,
+        // Slack
+        // Confirm Token Given From The Slash Command App
+        'slackConfirmToken' => 'slackConfirmToken',
+    ];
+  ```
 
 3. Add the slash command to your Slack Team:
 
@@ -49,7 +74,6 @@ The idea will be automatically added at your provided Trello Board and will be u
 5. Create a new <a href="https://trello.com/" target="_blank">Trello</a> Board where your ideas will be stored.
 
 6. <strong>(Optional)</strong> Create a new label for your Idea Cards.
-
 
 7. Get the Board and Label IDs:
   - Copy the board URL and paste it in a new window with .json at the end.
@@ -94,7 +118,7 @@ CREATE TABLE `ids` (
   - Make a GET Request to https://trello.com/1/organizations/idOrganization/members?key=trelloApiKey&token=trelloAuthToken
   - Generate a Slack token from <a href="https://api.slack.com/custom-integrations/legacy-tokens" target="_blank">here</a>.
   - Make a GET Request to https://slack.com/api/users.list?token=slackToken
-  - Insert in the database each team member's Name and id in Trello and Slack
+  - Insert in the database each team member's name and id in Trello and Slack
   
 
 ## Copyright and License
