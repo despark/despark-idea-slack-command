@@ -15,7 +15,7 @@
         // Trello Board ID Where The Ideas Will Be Created
         'trelloBoardId' => 'trelloBoardId',
         // ID Of The Label That Should Be Applied On The Idea. Set NULL If You Don't Want To Apply Any
-        'trelloLabelId' => 'trelloLabelId',
+        'trelloLabelId' => null,
         // Slack
         // Confirm Token Given From The Slash Command App
         'slackConfirmToken' => 'slackConfirmToken',
