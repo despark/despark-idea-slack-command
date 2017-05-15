@@ -71,7 +71,7 @@ The idea will be automatically added to the Trello board you provided in the con
   - Login with your account <a href="https://trello.com/app-key" target="_blank">here</a> and paste the generated API key in the  config file.
   - Get your Auth Token from <a href="https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&name=Server%20Token&key=5d222c8fdc009236f0c95e0d03b57785" target="_blank">here</a> and paste it in the config file.
 
-5. Create a new <a href="https://trello.com/" target="_blank">Trello</a> Board where your ideas will be stored.
+5. Create a new <a href="https://trello.com/" target="_blank">Trello</a> Board where your ideas will be stored and add your users to it.
 
 6. <strong>(Optional)</strong> Create a new label for your Idea Cards.
 
