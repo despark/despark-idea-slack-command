@@ -1,7 +1,7 @@
 <?php
     $config = [
         // Set True If You Want To Subscribe The User To The Created Idea
-        'subscribeUser' => true,
+        'subscribeUser' => false,
         // Database
         'servername' => '127.0.0.1',
         'username' => 'username',
